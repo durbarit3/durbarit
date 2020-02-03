@@ -20,6 +20,19 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Cart;
 use Illuminate\Foundation\Console\Presets\React;
+use Srmklive\PayPal\Services\ExpressCheckout;
+use Srmklive\PayPal\Services\AdaptivePayments;
+use PayPal;
+// paypal
+// use PayPal\Api\Payer;
+// use PayPal\Api\Amount;
+// use PayPal\Api\Details;
+// use PayPal\Api\Item;
+// use PayPal\Api\ItemList;
+// use PayPal\Api\Payment;
+// use PayPal\Api\PaymentExecution;
+// use PayPal\Api\RedirectUrls;
+// use PayPal\Api\Transaction;
 
 class CheckoutController extends Controller
 {
@@ -193,6 +206,7 @@ class CheckoutController extends Controller
 
         $purchase_key = DatabaseStorageModel::findOrFail($userid)->delete();
 
+
         $getPaymentSecureId = OrderPlace::where('id', $orderPlaceId)->select('payment_secure_id')->first();
 
         $getOrderInfo = OrderPlace::where('id', $orderPlaceId)->first();
@@ -288,6 +302,7 @@ class CheckoutController extends Controller
             # PARSE THE JSON RESPONSE
             $sslcz = json_decode($sslcommerzResponse, true);
 
+
             if (isset($sslcz['GatewayPageURL']) && $sslcz['GatewayPageURL'] != "") {
                 # THERE ARE MANY WAYS TO REDIRECT - Javascript, Meta Tag or Php Header Redirect or Other
                 # echo "<script>window.location.href = '". $sslcz['GatewayPageURL'] ."';</script>";
@@ -297,6 +312,13 @@ class CheckoutController extends Controller
             } else {
                 echo "JSON Data parsing error!";
             }
+        }
+      
+//       paypal redirect area start
+      
+       if($request->payment_method_id == 3){
+          return redirect()->route('payment.paypal');
+
         }
 
         // return OrderStorage::where('purchase_key', $purchase_key)->first()->cart_data;
@@ -359,7 +381,6 @@ class CheckoutController extends Controller
         }
     }
 
-
     // Order Place delete
     public function orderDataDelete(Request $request)
     {
@@ -369,6 +390,7 @@ class CheckoutController extends Controller
         return view('frontend.shopping.orderajaxdata', compact('usercartdatas'));
     }
 
+
     //  Ajax Method
 
     public function getCourierByUpazila($upazilaId)
@@ -376,5 +398,88 @@ class CheckoutController extends Controller
         $getCourierIdByUpId =  UpozilaCouriers::where('upazila_id', $upazilaId)->get();
         return view('frontend.shopping.ajax_view.couriers', compact('getCourierIdByUpId'));
     }
+
+
+
+    public function paywithpaypal(){
+
+
+      // $userid =  \Request::getClientIp(true);
+      // $usercartdatas = Cart::session($userid)->getContent();
+
+
+      $provider = new ExpressCheckout;
+
+      $invoiceId=uniqid();
+      $data=$this->cartData($invoiceId);
+
+      // $data['total'] = $total;
+      $response = $provider->setExpressCheckout($data);
+       //dd($response);
+       // This will redirect user to PayPal
+      return redirect($response['paypal_link']);
+
+    }
+// success
+
+
+public function paymentsuccess(Request $request){
+
+    $provider= new ExpressCheckout;
+    $token=$request->token;
+    $PayerID=$request->PayerID;
+    $response = $provider->getExpressCheckoutDetails($token);
+
+    $invoiceId=$response['INVNUM']??uniqid();
+
+
+    $data=$this->cartData($invoiceId);
+
+    $response = $provider->doExpressCheckoutPayment($data,$token,$PayerID);
+   // dd($response);
+
+    return "order completed";
+
+}
+
+    protected function cartData($invoiceId){
+
+
+        $data = [];
+        $data['items'] = [];
+
+        // $userid =  \Request::getClientIp(true);
+        // $usercartdatas = Cart::session($userid)->getContent();
+        $userid=Auth::user()->id;
+        $usercartdatas=OrderPlace::where('user_id',$userid)->orderBy('id','DESC')->first();
+        $cartid=$usercartdatas->cart_id;
+
+        $orderstorage=OrderStorage::where('purchase_key',$cartid)->first();
+
+        foreach(json_decode($orderstorage->cart_data) as $key => $cart){
+          $itemdetails=[
+            'name'=>$cart->name,
+            'price'=>$cart->price,
+            'qty'=>$cart->quantity,
+          ];
+            $data['items'][]=$itemdetails;
+        }
+
+
+        $data['invoice_id'] = $invoiceId;
+        $data['invoice_description'] = "testinvoice";
+        $data['return_url'] = url('/payment/success');
+        $data['cancel_url'] = url('/text');
+
+          $total = 0;
+          foreach($data['items'] as $item) {
+              $total += $item['price']*$item['qty'];
+          }
+          $data['total']=$total;
+
+          return $data;
+
+    }
+
 
 }

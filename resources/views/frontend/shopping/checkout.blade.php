@@ -179,6 +179,7 @@
 												<div class="form-group required">
 													<select name="shipping_district_id" id="shipping_district" class="form-control">
 														<option disabled selected> --- Please Select Your District --- </option>
+
 													</select>
 													@error('shipping_district_id')
 														<div class="text-danger alert alert-danger">{{ $message }}</div>
@@ -230,9 +231,11 @@
 										<div class="radio">
 											<label>
 												<input type="radio" name="payment_method_id" value="1" > Cash On Delivery <br>
+
 												<input type="radio" name="payment_method_id" value="2" >Stripe<br>
 												<input type="radio" name="payment_method_id" value="3" > Paypal<br>
 												<input type="radio" name="payment_method_id" value="4" > SSL Commerce
+
 												@error('payment_method_id')
 														<div class="text-danger alert alert-danger">{{ $message }}</div>
 												@enderror
@@ -281,6 +284,7 @@
 
 
 
+
 									<div id="payment-confirm-button" class="payment-">
 										<h2 class="secondary-title"><i class="fa fa-credit-card"></i>Payment Details</h2>
 
@@ -326,6 +330,8 @@
 			</form>
 
 		</div>
+	
+
 	</div>
 
 
@@ -333,6 +339,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script>
     $(document).ready(function() {
+
         $( "#is_shipping" ).click(function() {
             if(this.checked){
                 $('#shipping-address').css('display', 'none');
@@ -341,6 +348,7 @@
                 $('#shipping-address').css('display', 'block');
             }
         });
+
     });
 </script>
 
@@ -349,6 +357,7 @@
     $(document).ready(function() {
         $('#shipping_country').click(function(params) {
             var country_id = $(this).val();
+
 
             $.ajaxSetup({
                 headers: {
@@ -361,6 +370,7 @@
 				dataType:"json",
 
                 success: function(data) {
+
 
                         $('#shipping_division').empty();
                         $('#shipping_division').append(' <option value="0">--Please Select Your Division--</option>');
@@ -420,6 +430,7 @@
 
                 success: function(data) {
 
+
                         $('#shipping_upazila').empty();
                         $('#shipping_upazila').append(' <option value="0">--Please Select Your Division--</option>');
                         $.each(data,function(index,upazilabj){
@@ -433,6 +444,7 @@
 
 <script>
     $( document ).ready(function() {
+
 
         $.ajaxSetup({
             headers: {
@@ -452,12 +464,18 @@
 
     });
 
+
 </script>
 
 <script>
     var myVar;
     function myUpdateOrder(el) {
+
+
+
         myVar = setTimeout(function(){
+
+
             $.post('{{ route('product.order.update') }}', {_token: '{{ csrf_token() }}',quantity: el.value,rowid:el.id},
             function(data) {
 				$('#orderdata').html(data);
@@ -506,6 +524,7 @@
         $('#user_country').click(function(params) {
             var country_id = $(this).val();
 
+
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -515,6 +534,7 @@
                 type: 'GET',
                 url: "{{ url('/user/division/name') }}/" +country_id,
 				dataType:"json",
+
                 success: function(data) {
 
                     $('#user_division').empty();
@@ -522,6 +542,7 @@
                     $.each(data,function(index,divisionobj){
                         $('#user_division').append('<option value="' + divisionobj.id + '">'+divisionobj.name+'</option>');
                     });
+
                 }
 
             }
@@ -570,7 +591,3 @@
 </script>
 
 @endsection
-
-
-
-

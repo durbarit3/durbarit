@@ -207,17 +207,17 @@ Route::post('admin/banner/update','Admin\BannerController@update')->name('admin.
 // site banner
 Route::get(md5('admin/sitebanner/all'),'Admin\SiteBannerController@sitebanner')->name('admin.sitebanner.all');
 
-Route::get('admin/sitebanner/deactive/{id}','Admin\BannerController@sitebannerdeactive');
-Route::get('admin/sitebanner/active/{id}','Admin\BannerController@sitebanneractive');
-Route::get('admin/sitebanner/softdelete/{id}','Admin\BannerController@sitebabnsoftdelete');
-Route::get('/get/admin/sitebanner/edit/{id}','Admin\BannerController@sitebabnsoftedit');
-Route::get('admin/sitebanner/restore/{id}','Admin\BannerController@sitebanrestore');
-Route::get('admin/sitebanner/hearddelete/{id}','Admin\BannerController@sitebahearddel');
+Route::get('admin/sitebanner/deactive/{id}','Admin\SiteBannerController@sitebannerdeactive');
+Route::get('admin/sitebanner/active/{id}','Admin\SiteBannerController@sitebanneractive');
+Route::get('admin/sitebanner/softdelete/{id}','Admin\SiteBannerController@sitebabnsoftdelete');
+Route::get('/get/admin/sitebanner/edit/{id}','Admin\SiteBannerController@sitebabnsoftedit');
+Route::get('admin/sitebanner/restore/{id}','Admin\SiteBannerController@sitebanrestore');
+Route::get('admin/sitebanner/hearddelete/{id}','Admin\SiteBannerController@sitebahearddel');
 
 Route::post(md5('admin/sitebanner/insert'),'Admin\SiteBannerController@sitebannerinsert')->name('admin.sitebanner.insert');
 
-Route::post(md5('admin/sitebanner/update'),'Admin\BannerController@sitebannerupdate')->name('admin.sitebanner.update');
-Route::post(md5('admin/sitebanner/multisoftdelete'),'Admin\BannerController@sitebanmultisoft')->name('admin.sitebanner.multisoftdelete');
+Route::post(md5('admin/sitebanner/update'),'Admin\SiteBannerController@sitebannerupdate')->name('admin.sitebanner.update');
+Route::post(md5('admin/sitebanner/multisoftdelete'),'Admin\SiteBannerController@sitebanmultisoft')->name('admin.sitebanner.multisoftdelete');
 
 
 
@@ -241,6 +241,9 @@ Route::post(md5('admin/trash/product/hearddelete'), 'Admin\TrashController@produ
 
 Route::get(md5('admin/trash/banner'), 'Admin\TrashController@banner')->name('admin.trash.banner');
 Route::post(md5('admin/trash/banmultidel'), 'Admin\TrashController@banmultidel')->name('admin.trash.multidelban');
+
+Route::get(md5('admin/trash/sitebanner'), 'Admin\TrashController@SiteBanner')->name('admin.trash.sitebanner');
+Route::post(md5('admin/trash/sitebanner/multipledelete'), 'Admin\TrashController@sitebanmultidel')->name('admin.trash.sitebannerdel');
 
 // footer option area start
 Route::get(md5('admin/footer/option'), 'Admin\FooterController@footerShow')->name('admin.footer.option');
@@ -371,6 +374,16 @@ Route::post(md5('/order/data/delete'), 'Frontend\CheckoutController@orderDataDel
 // Created By Harrison
 Route::get('get/courier/by/upazila/id/{upazilaId}', 'Frontend\CheckoutController@getCourierByUpazila');
 
+// Route::get('/executepayment', 'Frontend\CheckoutController@execute');
+//
+Route::get('/create-payment', 'Frontend\CheckoutController@create')->name('create-payment');
+// Route::get('/cancle', 'Frontend\CheckoutController@cancle');
+
+ Route::get('/pay-with-paypal', 'Frontend\CheckoutController@paywithpaypal')->name('payment.paypal');
+ Route::get('/payment/success', 'Frontend\CheckoutController@paymentsuccess');
+ Route::get('/text', 'Frontend\CheckoutController@text');
+
+
 
 // cart all product show
 
@@ -404,6 +417,7 @@ Route::get('search/product/by/re_sub/category/{categoryId}/{productName}', 'Fron
 
 // Search Route Created By Harrison Ended
 
+
 // Payment Route Created By Harrison
 
 Route::group(['prefix' => 'payment', 'namespace' => 'Frontend'], function () {
@@ -419,7 +433,11 @@ Route::group(['prefix' => 'payment', 'namespace' => 'Frontend'], function () {
 
 // Payment Route Created By Harrison Ended
 
+// order Controller
 
+
+Route::get(md5('admin/product/order'), 'Admin\OrderController@index')->name('admin.productorder');
+Route::get('admin/product/order/invoice/{id}', 'Admin\OrderController@invoice');
 
 // cupon
 Route::get(md5('admin/trash/cupon'), 'Admin\TrashController@cupon')->name('admin.trash.cupon');
@@ -498,11 +516,5 @@ Route::group(['prefix' => 'admin/courier', 'namespace' => 'Admin', 'middleware' 
 // Route::get('test', function () {
 //     dd(substr(md5(time()), 10, 100));
 // });
-
-
-
-
-
-
 
 
