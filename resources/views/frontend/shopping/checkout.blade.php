@@ -52,20 +52,20 @@
 
 												<div class="form-group required">
 													<input type="hidden" name="user_id" value="{{Auth::user()->id}}" placeholder="Address 1 *" id="input-payment-address-1" class="form-control">
-													<input type="text" name="user_address" placeholder="Address 1 *" id="input-payment-address-1" class="form-control">
+													<input type="text" name="user_address" value="@if($useraddress->user_address){{$useraddress->user_address}}@endif"  placeholder="Address 1 *" id="input-payment-address-1" class="form-control">
 													@error('user_address')
 														<div class="text-danger alert alert-danger">{{ $message }}</div>
 													@enderror
 												</div>
 
 												<div class="form-group required">
-													<input type="text" name="user_post_office" value="" placeholder="Post office *" id="input-payment-city" class="form-control">
+													<input type="text" name="user_post_office" value="@if($useraddress->user_post_office){{$useraddress->user_post_office}}@endif" placeholder="Post office *" id="input-payment-city" class="form-control">
 													@error('user_post_office')
 														<div class="text-danger alert alert-danger">{{ $message }}</div>
 													@enderror
 												</div>
 												<div class="form-group">
-													<input type="text" name="user_postcode" value="" placeholder="Post Code *" id="input-payment-postcode" class="form-control">
+													<input type="text" name="user_postcode" value="@if($useraddress->user_postcode){{$useraddress->user_postcode}}@endif" placeholder="Post Code *" id="input-payment-postcode" class="form-control">
 													@error('user_postcode')
 														<div class="text-danger alert alert-danger">{{ $message }}</div>
 													@enderror
@@ -74,7 +74,7 @@
 													<select name="user_country_id" id="user_country" class="form-control">
 														<option value="" disabled selected> --- Please Select Your Country --- </option>
 														@foreach(DB::table('countries')->get() as $country)
-														<option value="{{$country->id}}">{{$country->name}}</option>
+														<option value="{{$country->id}}"@if($useraddress->user_country_id  == $country->id) selected @endif>{{$country->name}}</option>
 														@endforeach
 													</select>
 													@error('user_country_id')
@@ -84,7 +84,10 @@
 												<div class="form-group required">
 													<select name="user_division_id" id="user_division" class="form-control">
 														<option disabled selected> --- Please Select Your Division --- </option>
-
+														@foreach(DB::table('divisions')->get() as $division)
+															<option value="{{$division->id}}" @if($useraddress->user_division_id == $division->id) selected @endif>{{$division->name}} </option>
+														@endforeach
+														
 													</select>
 													@error('user_division_id')
 														<div class="text-danger alert alert-danger">{{ $message }}</div>
@@ -94,7 +97,14 @@
 												<div class="form-group required">
 													<select name="user_district_id" id="user_district" class="form-control">
 														<option disabled selected> --- Please Select Your District --- </option>
-
+														@php
+														$dis=DB::table('districts')->get();
+													
+														@endphp
+														@foreach($dis as $district)
+															<option value="{{$district->id}}" @if($useraddress->user_district_id == $district->id) selected @endif>{{$district->name}} </option>
+														@endforeach
+														
 													</select>
 													@error('user_district_id')
 														<div class="text-danger alert alert-danger">{{ $message }}</div>
@@ -102,8 +112,14 @@
 												</div>
 												<div class="form-group required">
 													<select name="user_upazila_id" id="user_upazila" class="form-control">
-														<option disabled selected> --- Please Select Your Upazila/Thana --- </option>
-
+													@php
+														$upa=DB::table('upazilas')->get();
+													
+													@endphp
+													@foreach($upa as $upazila)
+														<option value="{{$upazila->id}}" @if($useraddress->user_upazila_id == $upazila->id) selected @endif>{{$upazila->name}} </option>
+													@endforeach
+														
 												</div>
 												@error('user_upazila_id')
 														<div class="text-danger alert alert-danger">{{ $message }}</div>
@@ -119,14 +135,14 @@
 									$userid =  \Request::getClientIp(true);
 								@endphp
 								<input type="hidden" value="{{Cart::session($userid)->getTotalQuantity()}}" name="total_quantity">
-
+								
 
 							<div class="checkbox">
 								<label>
 									<input type="checkbox" id="is_shipping" name="is_shipping_address" value="1" checked="checked"> My delivery and billing addresses are the same.
 								</label>
 							</div>
-
+							
 							<input type="hidden" value="{{Cart::session($userid)->getTotal()}}" name="total_price">
 							<fieldset id="shipping-address" style="display: none">
 								<h2 class="secondary-title"><i class="fa fa-map-marker"></i>Shipping Address</h2>
@@ -169,7 +185,7 @@
 												<div class="form-group required">
 													<select name="shipping_division_id" id="shipping_division" class="form-control">
 														<option disabled selected> --- Please Select Your Division --- </option>
-
+														
 													</select>
 													@error('shipping_division_id')
 														<div class="text-danger alert alert-danger">{{ $message }}</div>
@@ -179,7 +195,7 @@
 												<div class="form-group required">
 													<select name="shipping_district_id" id="shipping_district" class="form-control">
 														<option disabled selected> --- Please Select Your District --- </option>
-
+														
 													</select>
 													@error('shipping_district_id')
 														<div class="text-danger alert alert-danger">{{ $message }}</div>
@@ -212,7 +228,7 @@
 
 
 
-
+					
 					<div class="col-right col-lg-6 col-md-6 col-sm-6 col-xs-12">
 						<section class="section-left">
 							<div class="ship-payment">
@@ -241,8 +257,7 @@
 										<div class="radio">
 											<label>
 												<input type="radio" name="payment_method_id" value="1" > Cash On Delivery <br>
-												<input type="radio" name="payment_method_id" value="2" > Stripe<br>
-												<input type="radio" name="payment_method_id" value="3" > PayPal<br>
+												<input type="radio" name="payment_method_id" value="2" > Payment Via Courier
 												@error('payment_method_id')
 														<div class="text-danger alert alert-danger">{{ $message }}</div>
 												@enderror
@@ -289,7 +304,7 @@
 							<div class="checkout-content checkout-cart">
 								<h2 class="secondary-title"><i class="fa fa-shopping-cart"></i>Shopping Cart (0.00kg) </h2>
 								<div class="box-inner" id="orderdata">
-
+									
 
 
 
@@ -341,8 +356,6 @@
 			</form>
 
 		</div>
-	
-
 	</div>
 
 
@@ -355,12 +368,12 @@
 					$('#shipping-address').css('display', 'none');
 				}
 				if(!this.checked){
-					$('#shipping-address').css('display', 'block');
+					$('#shipping-address').css('display', 'block');	
 				}
 			});
+        
 
-
-
+		
     });
 </script>
 
@@ -369,8 +382,8 @@
     $(document).ready(function() {
         $('#shipping_country').click(function(params) {
             var country_id = $(this).val();
-
-
+			
+			
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -380,10 +393,10 @@
                 type: 'GET',
                 url: "{{ url('/user/division/name') }}/" +country_id,
 				dataType:"json",
-
+                
                 success: function(data) {
-
-
+                  
+						
                         $('#shipping_division').empty();
                         $('#shipping_division').append(' <option value="0">--Please Select Your Division--</option>');
                         $.each(data,function(index,divisionobj){
@@ -398,7 +411,7 @@
 <script>
     $(document).ready(function() {
         $('#shipping_division').click(function(params) {
-
+            
             var division_id = $(this).val();
             $.ajaxSetup({
                 headers: {
@@ -409,9 +422,9 @@
                 type: 'GET',
                 url: "{{ url('/user/district/name') }}/" +division_id,
 				dataType:"json",
-
+                
                 success: function(data) {
-
+                  
 						console.log(data);
                         $('#shipping_district').empty();
                         $('#shipping_district').append(' <option value="0">--Please Select Your Division--</option>');
@@ -427,9 +440,9 @@
 <script>
     $(document).ready(function() {
         $('#shipping_district').click(function(params) {
-
+            
             var upazila_id = $(this).val();
-
+            
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -439,10 +452,10 @@
                 type: 'GET',
                 url: "{{ url('/user/upazila/name') }}/" +upazila_id,
 				dataType:"json",
-
+                
                 success: function(data) {
-
-
+                  
+					
                         $('#shipping_upazila').empty();
                         $('#shipping_upazila').append(' <option value="0">--Please Select Your Division--</option>');
                         $.each(data,function(index,upazilabj){
@@ -465,25 +478,25 @@
             $.ajax({
                 type: 'GET',
                 url: "{{ route('get.order.data') }}",
-
+                
                 success: function(data) {
-
-
+                    
+                  
                     $('#orderdata').html(data);
-
+                    
                 }
             });
-
+    
 });
-
+    
 </script>
 
 <script>
     var myVar;
     function myUpdateOrder(el) {
 
-
-        myVar = setTimeout(function(){
+		
+        myVar = setTimeout(function(){ 
 
             $.post('{{ route('product.order.update') }}', {_token: '{{ csrf_token() }}',quantity: el.value,rowid:el.id},
             function(data) {
@@ -491,25 +504,25 @@
                 if (data) {
 
                     toastr.success("Product Quantity Changed successfully");
-                }
+                } 
             });
-
+			toastr.success("Product Quantity Changed successfully");
         }, 1000);
-
-
-
+            
+        
+      
     }
-
+   
     myUpdateOrder();
-
-
+    
+    
 </script>
 
 <script>
 
 // $(document).ready(function() {
 // $('#orderdelete').on('click', function(){
-
+	
 
 
 // $.ajax({
@@ -534,8 +547,8 @@
     $(document).ready(function() {
         $('#user_country').click(function(params) {
             var country_id = $(this).val();
-
-
+            
+			
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -545,10 +558,10 @@
                 type: 'GET',
                 url: "{{ url('/user/division/name') }}/" +country_id,
 				dataType:"json",
-
+                
                 success: function(data) {
-
-
+                  
+						
                         $('#user_division').empty();
                         $('#user_division').append(' <option value="0">--Please Select Your Division--</option>');
                         $.each(data,function(index,divisionobj){
@@ -562,7 +575,7 @@
         // alert('danger');
      }
 
-
+            
         });
 
     });
@@ -570,3 +583,7 @@
 
 
 @endsection
+
+
+
+

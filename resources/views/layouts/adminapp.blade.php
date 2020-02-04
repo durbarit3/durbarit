@@ -329,7 +329,7 @@
                         <li class="single-nav-wrapper">
                             <a class="has-arrow menu-item" href="#" aria-expanded="false">
                               <span class="left-icon"><i class="fas fa-cart-plus"></i></span>
-                                <span class="menu-text">E-commerce Product</span>
+                                <span class="menu-text">Product</span>
                             </a>
                               <ul class="dashboard-menu">
                                 <li><a href="{{route('admin.product.producttype')}}">Add Product</a></li>
@@ -344,17 +344,6 @@
                               <ul class="dashboard-menu">
                                 <li><a href="{{route('admin.cupon.all')}}">All Cupon</a></li>
                                 <li><a href="{{route('admin.cupon.add')}}">Add Cupon</a></li>
-                              </ul>
-                        </li>
-
-                        <li class="single-nav-wrapper">
-                            <a class="has-arrow menu-item" href="#" aria-expanded="false">
-                              <span class="left-icon"><i class="fas fa-people-carry"></i></span>
-                                <span class="menu-text">E-commerce Order</span>
-                            </a>
-                              <ul class="dashboard-menu">
-                                <li><a href="{{route('admin.productorder')}}">All Orders</a></li>
-                                <li><a href="{{url('admin/product/order/invoice')}}">invoice</a></li>
                               </ul>
                         </li>
 
@@ -378,8 +367,7 @@
                                 <li><a href="{{route('admin.termscondition')}}">Terms & Condition</a></li>
                                 <li><a href="{{route('admin.faq.all')}}">Faq</a></li>
                                 <li><a href="{{route('admin.page.all')}}">Page</a></li>
-                                <li><a href="{{route('admin.banner.all')}}">Slider</a></li>
-                                <li><a href="{{route('admin.sitebanner.all')}}">Site Banner </a></li>
+                                <li><a href="{{route('admin.banner.all')}}">Banner</a></li>
                               </ul>
                         </li>
 
@@ -394,17 +382,6 @@
                               <li><a href="{{ route('admin.flash.deal.create') }}">Add Flash Deal</a></li>
                               <li><a href="{{ route('admin.flash.deal.index') }}">All Flash Deal</a></li>
                               </ul>
-                        </li>
-
-                        <li class="single-nav-wrapper">
-                            <a class="has-arrow menu-item" href="#" aria-expanded="false">
-                                <span class="left-icon"><i class="fas fa-people-carry"></i></span>
-                                <span class="menu-text">Courier Settings</span>
-                            </a>
-                            <ul class="dashboard-menu">
-                                <li><a href="{{ route('courier.sync.view') }}">Courier sync</a></li>
-                            <li><a href="{{ route('courier.index') }}">View Courier Info</a></li>
-                            </ul>
                         </li>
 
 
@@ -426,7 +403,6 @@
                                 <li><a href="{{route('admin.trash.faq')}}">Faq</a></li>
                                 <li><a href="{{route('admin.trash.page')}}">Page</a></li>
                                 <li><a href="{{route('admin.trash.banner')}}">Banner</a></li>
-                                <li><a href="{{route('admin.trash.sitebanner')}}">SiteBanner</a></li>
                               </ul>
                         </li>
 
@@ -495,8 +471,6 @@
         <script src="{{asset('public/adminpanel')}}/assets/plugins/ckeditor/ckeditor.js"></script>
         <script src="{{asset('public/adminpanel')}}/assets/plugins/ckeditor/ckeditor-active.js"></script>
         <script src="{{asset('public/adminpanel')}}/assets/plugins/select2/js/select2.full.min.js"></script>
-        <script src="{{asset('public/adminpanel')}}/assets/plugins/print/divjs.js"></script>
-		   <script src="{{asset('public/adminpanel')}}/assets/plugins/print/print.active.js"></script>
 
         {{-- TestJs --}}
 
