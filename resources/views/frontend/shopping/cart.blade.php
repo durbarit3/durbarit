@@ -51,6 +51,7 @@
     var myVar;
     function myUpdatecart(el) {
 
+
         myVar = setTimeout(function () {
 
             $.post('{{ route('product.cart.update') }}', { _token: '{{ csrf_token() }}', quantity: el.value, rowid: el.id },
@@ -61,6 +62,7 @@
                         toastr.success("Product Quantity Changed successfully");
                     }
                 });
+
 
         }, 1000);
     }

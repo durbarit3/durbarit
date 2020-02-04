@@ -19,6 +19,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Cart;
+
 use Illuminate\Foundation\Console\Presets\React;
 
 class CheckoutController extends Controller
@@ -29,19 +30,22 @@ class CheckoutController extends Controller
     {
         if (Auth::check()) {
             $order_id = rand(100, 100000);
-            return view('frontend.shopping.checkout', compact('order_id'));
+            $useraddress =UserAddress::where('user_id',Auth::user()->id)->first();
+            return view('frontend.shopping.checkout', compact('order_id','useraddress'));
         } else {
 
             return view('frontend.accounts.checkout_login');
         }
     }
 
+    // Show Checkout Login form
+
     public function CustomerLogin()
     {
         return view('frontend.accounts.checkout_login');
     }
 
-
+    
 
     public function authenticate(Request $request)
     {
@@ -78,14 +82,41 @@ class CheckoutController extends Controller
                     $carttotal = Cart::session($userid)->getTotal();
 
                     $cuponminimum = Cupon::where('cupon_code', $request->cuponvalue)->first()->minimum_shopping;
+                    $cupondiscount = Cupon::where('cupon_code', $request->cuponvalue)->first()->discount;
+                    $cupondiscounttype = Cupon::where('cupon_code', $request->cuponvalue)->first()->discount_type;
+                    $cupondiscountspers = Cupon::where('cupon_code', $request->cuponvalue)->first()->discount.'%';
                     if ($cuponminimum <= $carttotal) {
+                       
+
+                        if($cupondiscounttype ==2){
+                             
+                            $condition = new \Darryldecode\Cart\CartCondition(array(
+                                'name' => 'Minimum_shopping',
+                                'type' => 'coupon',
+                                'target' => 'total',
+                                'value' => -$cupondiscount,
+                            ));
+                        }else{
+                            
+                            $condition = new \Darryldecode\Cart\CartCondition(array(
+                                'name' => 'Minimum_shopping',
+                                'type' => 'coupon',
+                                'target' => 'total',
+                                'value' => '-'.$cupondiscountspers,
+                            ));
+                        }
+
                         UserUsedCupon::insert([
                             'user_ip' => Auth::user()->id,
                             'cupon_id' => $cuponuser->id,
                             'order_id' => $request->order,
                             'created_at' => Carbon::now(),
                         ]);
-                        return "Cupon insert sussefull!";
+                        
+                        Cart::session($userid)->condition($condition);
+                        
+                        return "Cupon Insert Successfully";
+                        
                     } else {
                         return "Your minimum purchese is less than minimum shopping criteria";
                     }
@@ -95,24 +126,43 @@ class CheckoutController extends Controller
                     $cartdatas = Cart::session($userid)->getContent();
 
                     $cuponminproducts = Cupon::where('cupon_code', $request->cuponvalue)->first()->product_id;
-                    $cupondiscounts = Cupon::where('cupon_code', $request->cuponvalue)->first();
-
+                    $cupondiscountspers = Cupon::where('cupon_code', $request->cuponvalue)->first()->discount.'%';
+                    $cupondiscounts = Cupon::where('cupon_code', $request->cuponvalue)->first()->discount;
+                    $cupondiscounttype = Cupon::where('cupon_code', $request->cuponvalue)->first()->discount_type;
+                    
                     foreach ($cartdatas as $cartdata) {
+                        
                         foreach (json_decode($cuponminproducts) as $cuponminproduct) {
 
-
                             if ($cartdata->attributes->product_id == $cuponminproduct) {
+                               
+
+                                if($cupondiscounttype == 2){
+                                    $condition = new \Darryldecode\Cart\CartCondition(array(
+                                        'name' => 'Percentage',
+                                        'type' => 'coupon',
+                                        'target' => 'total',
+                                        'value' => -$cupondiscounts,
+                                    ));
+                                }else{
+                                    
+                                    if( $cartdata->attributes->has('variation') )
+                                    {
+                                        Cart::update($cartdata->id, array(
+                                            'price' =>$cartdata->price - $cartdata->price *$cupondiscounts/100, 
+                                          ));
+                                    }
+                                    
+                                }
                                 UserUsedCupon::insert([
                                     'user_ip' => Auth::user()->id,
                                     'cupon_id' => $cuponuser->id,
                                     'order_id' => $request->order,
                                     'created_at' => Carbon::now(),
-                                ]);
-
-                                return "Cupon Insert Sussesfully!";
-                            } else {
-                                return "No Cupon Available";
-                            }
+                                ]); 
+                                
+                                return redirect()->route('get.order.data');
+                            } 
                         }
                     }
                 }
@@ -139,11 +189,12 @@ class CheckoutController extends Controller
             'user_upazila_id' => 'required',
             'shipping_id' => 'required',
             'payment_method_id' => 'required',
-            'comment' => 'required',
+            
 
         ]);
 
-
+        
+        
         $usseraddress_id = UserAddress::insertGetId([
             'user_id' => $request->user_id,
             'user_address' => $request->user_address,
@@ -159,6 +210,18 @@ class CheckoutController extends Controller
 
 
         if (UserAddress::findOrFail($usseraddress_id)->is_shipping_address == NULL) {
+
+             $request->validate([
+                'shipping_address' => 'required',
+                'shipping_post_office' => 'required',
+                'shipping_postcode' => 'required',
+                'shipping_country_id' => 'required',
+                'shipping_division_id' => 'required',
+                'shipping_district_id' => 'required',
+                'shipping_upazila_id' => 'required',
+            ]);
+
+
             ShippingAddress::insert([
                 'shipping_user_id' => $request->shipping_user_id,
                 'shipping_address' => $request->shipping_customer_address,
@@ -174,8 +237,10 @@ class CheckoutController extends Controller
         }
 
 
-        $userid =  \Request::getClientIp(true) . '_cart_items';
-        $purchase_key = DatabaseStorageModel::findOrFail($userid)->purchase_key;
+        $userid =  \Request::getClientIp(true);
+        $useriditem =  \Request::getClientIp(true) . '_cart_items';
+        $useridcondition =  \Request::getClientIp(true) . '_cart_conditions';
+        $purchase_key = DatabaseStorageModel::findOrFail($useriditem)->purchase_key;
 
         $orderPlaceId = OrderPlace::insertGetId([
             'shipping_id' => $request->shipping_id,
@@ -189,6 +254,7 @@ class CheckoutController extends Controller
             'payment_secure_id' => substr(md5(time()), 10, 100),
             'created_at' => Carbon::now(),
         ]);
+
 
         $purchase_key = DatabaseStorageModel::findOrFail($userid)->delete();
 
@@ -295,6 +361,11 @@ class CheckoutController extends Controller
             } else {
                 echo "JSON Data parsing error!";
             }
+
+        DatabaseStorageModel::where('id',$useriditem)->first()->delete();
+        if(DatabaseStorageModel::where('id',$useridcondition)->first()){
+            DatabaseStorageModel::where('id',$useridcondition)->first()->delete();
+
         }
 
         // return OrderStorage::where('purchase_key', $purchase_key)->first()->cart_data;
