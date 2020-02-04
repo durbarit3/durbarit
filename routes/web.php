@@ -208,6 +208,18 @@ Route::get('/get/admin/banner/edit/{ban_id}','Admin\BannerController@edit');
 Route::post('admin/banner/update','Admin\BannerController@update')->name('admin.banner.update');
 
 
+route::get(md5('admin/sitebanner/all'),'admin\sitebannercontroller@sitebanner')->name('admin.sitebanner.all');
+Route::get('admin/sitebanner/deactive/{id}','Admin\SiteBannerController@sitebannerdeactive');
+Route::get('admin/sitebanner/active/{id}','Admin\SiteBannerController@sitebanneractive');
+Route::get('admin/sitebanner/softdelete/{id}','Admin\SiteBannerController@sitebabnsoftdelete');
+Route::get('/get/admin/sitebanner/edit/{id}','Admin\SiteBannerController@sitebabnsoftedit');
+Route::get('admin/sitebanner/restore/{id}','Admin\SiteBannerController@sitebanrestore');
+Route::get('admin/sitebanner/hearddelete/{id}','Admin\SiteBannerController@sitebahearddel');
+route::post(md5('admin/sitebanner/insert'),'admin\sitebannercontroller@sitebannerinsert')->name('admin.sitebanner.insert');
+route::post(md5('admin/sitebanner/update'),'admin\sitebannercontroller@sitebannerupdate')->name('admin.sitebanner.update');
+route::post(md5('admin/sitebanner/multisoftdelete'),'admin\sitebannercontroller@sitebanmultisoft')->name('admin.sitebanner.multisoftdelete');
+
+
 
 
 
