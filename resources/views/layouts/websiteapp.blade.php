@@ -11,7 +11,7 @@
 
 	<meta name="robots" content="index, follow" />
 	<meta name="csrf-token" content="{{ csrf_token() }}">
-	
+
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
     <meta name="robots" content="index, follow" />
@@ -95,18 +95,33 @@
 
 <script>
     function cuponApply() {
+
+
+
+	var cuponvalue =document.getElementById('input-coupon');
+
+        $.post('{{ route('customer.apply.cupon') }}', {_token: '{{ csrf_token() }}',cuponvalue: cuponvalue.value},
+
       
 	
     var cuponvalue =document.getElementById('input-coupon').value;
     var ordervalue =document.getElementById('input_order').value;
         
     $.post('{{ route('customer.apply.cupon') }}', {_token: '{{ csrf_token() }}',cuponvalue: cuponvalue, order:ordervalue},
+
             function(data) {
-				
+
                 console.log(data);
+
+
+
+                if (data.quantity) {
+                    toastr.success("Product Quantity Changed successfully");
+                }
+
         
                 toastr.success(data);
-                    
+
             });
 
             
@@ -115,9 +130,37 @@
     cuponApply();
 
 
-	
-    
+
+
 </script>
+
+
+<script>
+    function cuponApply() {
+
+
+	var cuponvalue =document.getElementById('input-coupon').value;
+    var ordervalue =document.getElementById('input_order').value;
+
+
+
+
+        $.post('{{ route('customer.apply.cupon') }}', {_token: '{{ csrf_token() }}',cuponvalue: cuponvalue, order:ordervalue},
+            function(data) {
+
+                console.log(data);
+
+
+                if (data.quantity) {
+                    toastr.success("Product Quantity Changed successfully");
+                }
+            });
+    }
+    cuponApply();
+
+
+</script>
+
 
 
 
@@ -127,7 +170,7 @@
         $('#user_country').click(function(params) {
             var country_id = $(this).val();
             console.log(country_id);
-			
+
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -137,10 +180,10 @@
                 type: 'GET',
                 url: "{{ url('/user/division/name') }}/" +country_id,
 				dataType:"json",
-                
+
                 success: function(data) {
-                  
-						
+
+
                         $('#user_division').empty();
                         $('#user_division').append(' <option value="0">--Please Select Your Division--</option>');
                         $.each(data,function(index,divisionobj){
@@ -149,9 +192,9 @@
                 }
 
             });
-   
-            
-    
+
+
+
             });
     });
 </script>
@@ -159,7 +202,7 @@
 <script>
     $(document).ready(function() {
         $('#user_division').click(function(params) {
-            
+
             var division_id = $(this).val();
             $.ajaxSetup({
                 headers: {
@@ -170,9 +213,9 @@
                 type: 'GET',
                 url: "{{ url('/user/district/name') }}/" +division_id,
 				dataType:"json",
-                
+
                 success: function(data) {
-                  
+
 						console.log(data);
                         $('#user_district').empty();
                         $('#user_district').append(' <option value="0">--Please Select Your Division--</option>');
@@ -188,9 +231,9 @@
 <script>
     $(document).ready(function() {
         $('#user_district').click(function(params) {
-            
+
             var upazila_id = $(this).val();
-            
+
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -200,9 +243,9 @@
                 type: 'GET',
                 url: "{{ url('/user/upazila/name') }}/" +upazila_id,
 				dataType:"json",
-                
+
                 success: function(data) {
-                  
+
 						console.log(data);
                         $('#user_upazila').empty();
                         $('#user_upazila').append(' <option value="0">--Please Select Your Division--</option>');
