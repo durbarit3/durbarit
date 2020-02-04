@@ -35,27 +35,27 @@ class OrderController extends Controller
     $invoice=OrderPlace::where('id',$id)->first();
     return view('admin.ecommerce.invoice.invoice',compact('invoice'));
   }
-  // public function deleverystatus(Request $request){
-  //   $id=$request->orderplaceid;
-  //   $devestatus=$request->delevary;
-  //   //return $devestatus;
-  //   $update=OrderPlace::where('id',$id)->update([
-  //     'delevary'=>$devestatus,
-  //     'updated_at'=>Carbon::now()->toDateTimeString(),
-  //   ]);
-  //   if($update){
-  //     $notification=array(
-  //       'messege'=>'Update Success',
-  //       'alert-type'=>'success'
-  //        );
-  //      return Redirect()->back()->with($notification);
-  //   }else{
-  //     $notification=array(
-  //       'messege'=>'Update faild',
-  //       'alert-type'=>'error'
-  //        );
-  //      return Redirect()->back()->with($notification);
-  //   }
+  public function deleverystatus(Request $request){
+    $id=$request->orderplaceid;
+    $devestatus=$request->delevary;
+    //return $devestatus;
+    $update=OrderPlace::where('id',$id)->update([
+      'delevary'=>$devestatus,
+      'updated_at'=>Carbon::now()->toDateTimeString(),
+    ]);
+    if($update){
+      $notification=array(
+        'messege'=>'Update Success',
+        'alert-type'=>'success'
+         );
+       return Redirect()->back()->with($notification);
+    }else{
+      $notification=array(
+        'messege'=>'Update faild',
+        'alert-type'=>'error'
+         );
+       return Redirect()->back()->with($notification);
+    }
 
 
 
