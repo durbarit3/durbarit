@@ -396,6 +396,13 @@ Route::get('/user/upazila/name/{id}', 'Frontend\CheckoutController@userUpazilaSu
 
 
 
+// order Controller
+
+Route::get(md5('admin/product/order'), 'Admin\OrderController@index')->name('admin.productorder');
+Route::get(md5('admin/product/ondelevery'), 'Admin\OrderController@ondelevery')->name('admin.ondevelery');
+Route::get('admin/product/order/invoice/{id}', 'Admin\OrderController@invoice');
+
+
 // cupon
 Route::get(md5('admin/trash/cupon'), 'Admin\TrashController@cupon')->name('admin.trash.cupon');
 Route::post('admin/trash/cupon/multipledelete', 'Admin\TrashController@cuponmultidelete')->name('admin.trash.cupondelete');

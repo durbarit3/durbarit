@@ -350,6 +350,21 @@
                         <li class="single-nav-wrapper">
                             <a class="has-arrow menu-item" href="#" aria-expanded="false">
                               <span class="left-icon"><i class="fas fa-people-carry"></i></span>
+
+                                <span class="menu-text">E-commerce Order</span>
+                            </a>
+                              <ul class="dashboard-menu">
+                                <li><a href="{{route('admin.productorder')}}">All Pending Orders</a></li>
+                                <li><a href="{{route('admin.ondevelery')}}">All On Delevery Orders</a></li>
+                                <li><a href="">All Compleate Orders</a></li>
+                                <li><a href="{{url('admin/product/order/invoice')}}">invoice</a></li>
+                              </ul>
+                        </li>
+
+                        <li class="single-nav-wrapper">
+                            <a class="has-arrow menu-item" href="#" aria-expanded="false">
+                              <span class="left-icon"><i class="fas fa-people-carry"></i></span>
+
                                 <span class="menu-text">Messaging</span>
                             </a>
                             <ul class="dashboard-menu">
