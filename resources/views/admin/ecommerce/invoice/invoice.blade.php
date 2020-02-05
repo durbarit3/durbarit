@@ -9,15 +9,43 @@
         <div class="panel mb-0">
           <div class="panel_header">
             <div class="panel_title">
-              <span>Invoice</span>
+              <div class="row">
+                <div class="col-md-6">
+                  <span>Invoice</span>
+                </div>
+                <div class="col-md-6 text-right">
+                  <a href="#" class="btn btn-info">Back</a>
+                </div>
+            </div>
             </div>
           </div>
+        </br>
+        <form action="{{url('admin/delevary/status')}}" method="POST">
+          @csrf
+          <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-4">
+              <input type="hidden" name="orderplaceid" value="{{$invoice->id}}">
+              <select class="form-control" name="delevary">
+
+                <option value="1" @if($invoice->delevary==1) selected @else @endif>Panding</option>
+                <option value="2" @if($invoice->delevary==2) selected @else @endif>On Delevery</option>
+                <option value="3" @if($invoice->delevary==3) selected @else @endif>Develared</option>
+              </select>
+
+            </div>
+            <div class="col-md-2">
+              <button type="submit" class="btn btn-success">Develary Status</button>
+            </div>
+          </div>
+        </form>
+        </br>
           <div class="panel_body print_element">
 
                           <div class="logo">
                             <img src="{{asset('public/adminpanel')}}/assets/images/logo.png" class="img-fluid" alt="">
                           </div>
-             <div class="row">
+                           <div class="row">
                               <div class="col-sm-6">
                                   <br>
                                   <address class="fs-13">
@@ -125,3 +153,4 @@
 
 
 @endsection
+
