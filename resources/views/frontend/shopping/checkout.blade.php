@@ -254,9 +254,13 @@
 										<div class="radio">
 											<label>
 												<input type="radio" name="payment_method_id" value="1" > Cash On Delivery <br>
+
+
 												<input type="radio" name="payment_method_id" value="2" >Stripe<br>
 												<input type="radio" name="payment_method_id" value="3" > Paypal<br>
 												<input type="radio" name="payment_method_id" value="4" > SSL Commerce
+
+
 												@error('payment_method_id')
 														<div class="text-danger alert alert-danger">{{ $message }}</div>
 												@enderror
@@ -357,6 +361,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script>
     $(document).ready(function() {
+
         $( "#is_shipping" ).click(function() {
             if(this.checked){
                 $('#shipping-address').css('display', 'none');
@@ -365,6 +370,7 @@
                 $('#shipping-address').css('display', 'block');
             }
         });
+
     });
 </script>
 
@@ -474,14 +480,24 @@
             }
         });
 
+
     });
+
 
 </script>
 
 <script>
     var myVar;
     function myUpdateOrder(el) {
+
+
+
+
         myVar = setTimeout(function(){
+
+
+
+
             $.post('{{ route('product.order.update') }}', {_token: '{{ csrf_token() }}',quantity: el.value,rowid:el.id},
             function(data) {
 				$('#orderdata').html(data);
@@ -546,6 +562,7 @@
                     $.each(data,function(index,divisionobj){
                         $('#user_division').append('<option value="' + divisionobj.id + '">'+divisionobj.name+'</option>');
                     });
+
                 }
 
             }

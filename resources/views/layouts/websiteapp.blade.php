@@ -98,6 +98,7 @@
 
 
 
+
 	var cuponvalue =document.getElementById('input-coupon');
 
         $.post('{{ route('customer.apply.cupon') }}', {_token: '{{ csrf_token() }}',cuponvalue: cuponvalue.value},
@@ -115,12 +116,14 @@
 
 
 
+
                 if (data.quantity) {
                     toastr.success("Product Quantity Changed successfully");
                 }
 
         
                 toastr.success(data);
+
 
             });
 

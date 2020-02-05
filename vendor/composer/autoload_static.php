@@ -71,7 +71,13 @@ class ComposerStaticInit229ef598f15ef1b57ceb6f751a711138
             'Symfony\\Component\\Debug\\' => 24,
             'Symfony\\Component\\CssSelector\\' => 30,
             'Symfony\\Component\\Console\\' => 26,
+
+
             'Stripe\\' => 7,
+
+            'Srmklive\\PayPal\\' => 16,
+
+
         ),
         'R' => 
         array (
@@ -269,9 +275,17 @@ class ComposerStaticInit229ef598f15ef1b57ceb6f751a711138
         array (
             0 => __DIR__ . '/..' . '/symfony/console',
         ),
+
+
         'Stripe\\' => 
         array (
             0 => __DIR__ . '/..' . '/stripe/stripe-php/lib',
+
+        'Srmklive\\PayPal\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/srmklive/paypal/src',
+
+
         ),
         'Ramsey\\Uuid\\' => 
         array (
@@ -506,7 +520,9 @@ class ComposerStaticInit229ef598f15ef1b57ceb6f751a711138
         'App\\Http\\Controllers\\Frontend\\ContractUsController' => __DIR__ . '/../..' . '/app/Http/Controllers/Frontend/ContractUsController.php',
         'App\\Http\\Controllers\\Frontend\\CustomerController' => __DIR__ . '/../..' . '/app/Http/Controllers/Frontend/CustomerController.php',
         'App\\Http\\Controllers\\Frontend\\FrontendController' => __DIR__ . '/../..' . '/app/Http/Controllers/Frontend/FrontendController.php',
+
         'App\\Http\\Controllers\\Frontend\\PaymentController' => __DIR__ . '/../..' . '/app/Http/Controllers/Frontend/PaymentController.php',
+
         'App\\Http\\Controllers\\Frontend\\SearchController' => __DIR__ . '/../..' . '/app/Http/Controllers/Frontend/SearchController.php',
         'App\\Http\\Controllers\\Frontend\\SubscribeController' => __DIR__ . '/../..' . '/app/Http/Controllers/Frontend/SubscribeController.php',
         'App\\Http\\Controllers\\Frontend\\WishlistController' => __DIR__ . '/../..' . '/app/Http/Controllers/Frontend/WishlistController.php',
@@ -3883,6 +3899,7 @@ class ComposerStaticInit229ef598f15ef1b57ceb6f751a711138
         'SebastianBergmann\\Type\\UnknownType' => __DIR__ . '/..' . '/sebastian/type/src/UnknownType.php',
         'SebastianBergmann\\Type\\VoidType' => __DIR__ . '/..' . '/sebastian/type/src/VoidType.php',
         'SebastianBergmann\\Version' => __DIR__ . '/..' . '/sebastian/version/src/Version.php',
+
         'Stripe\\Account' => __DIR__ . '/..' . '/stripe/stripe-php/lib/Account.php',
         'Stripe\\AccountLink' => __DIR__ . '/..' . '/stripe/stripe-php/lib/AccountLink.php',
         'Stripe\\AlipayAccount' => __DIR__ . '/..' . '/stripe/stripe-php/lib/AlipayAccount.php',
@@ -4013,6 +4030,19 @@ class ComposerStaticInit229ef598f15ef1b57ceb6f751a711138
         'Stripe\\Webhook' => __DIR__ . '/..' . '/stripe/stripe-php/lib/Webhook.php',
         'Stripe\\WebhookEndpoint' => __DIR__ . '/..' . '/stripe/stripe-php/lib/WebhookEndpoint.php',
         'Stripe\\WebhookSignature' => __DIR__ . '/..' . '/stripe/stripe-php/lib/WebhookSignature.php',
+
+
+        'Srmklive\\PayPal\\Facades\\PayPal' => __DIR__ . '/..' . '/srmklive/paypal/src/Facades/PayPal.php',
+        'Srmklive\\PayPal\\PayPalFacadeAccessor' => __DIR__ . '/..' . '/srmklive/paypal/src/PayPalFacadeAccessor.php',
+        'Srmklive\\PayPal\\Providers\\PayPalServiceProvider' => __DIR__ . '/..' . '/srmklive/paypal/src/Providers/PayPalServiceProvider.php',
+        'Srmklive\\PayPal\\Services\\AdaptivePayments' => __DIR__ . '/..' . '/srmklive/paypal/src/Services/AdaptivePayments.php',
+        'Srmklive\\PayPal\\Services\\ExpressCheckout' => __DIR__ . '/..' . '/srmklive/paypal/src/Services/ExpressCheckout.php',
+        'Srmklive\\PayPal\\Traits\\PayPalHttpClient' => __DIR__ . '/..' . '/srmklive/paypal/src/Traits/PayPalHttpClient.php',
+        'Srmklive\\PayPal\\Traits\\PayPalRequest' => __DIR__ . '/..' . '/srmklive/paypal/src/Traits/PayPalRequest.php',
+        'Srmklive\\PayPal\\Traits\\PayPalTransactions' => __DIR__ . '/..' . '/srmklive/paypal/src/Traits/PayPalTransactions.php',
+        'Srmklive\\PayPal\\Traits\\RecurringProfiles' => __DIR__ . '/..' . '/srmklive/paypal/src/Traits/RecurringProfiles.php',
+
+
         'Symfony\\Component\\Console\\Application' => __DIR__ . '/..' . '/symfony/console/Application.php',
         'Symfony\\Component\\Console\\CommandLoader\\CommandLoaderInterface' => __DIR__ . '/..' . '/symfony/console/CommandLoader/CommandLoaderInterface.php',
         'Symfony\\Component\\Console\\CommandLoader\\ContainerCommandLoader' => __DIR__ . '/..' . '/symfony/console/CommandLoader/ContainerCommandLoader.php',

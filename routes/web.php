@@ -387,6 +387,17 @@ Route::post(md5('/order/data/delete'), 'Frontend\CheckoutController@orderDataDel
 // Created By Harrison
 Route::get('get/courier/by/upazila/id/{upazilaId}', 'Frontend\CheckoutController@getCourierByUpazila');
 
+// Route::get('/executepayment', 'Frontend\CheckoutController@execute');
+//
+Route::get('/create-payment', 'Frontend\CheckoutController@create')->name('create-payment');
+// Route::get('/cancle', 'Frontend\CheckoutController@cancle');
+
+ Route::get('/pay-with-paypal', 'Frontend\CheckoutController@paywithpaypal')->name('payment.paypal');
+ Route::get('/payment/success', 'Frontend\CheckoutController@paymentsuccess');
+ Route::get('/text', 'Frontend\CheckoutController@text');
+
+
+
 
 // cart all product show
 
@@ -413,6 +424,26 @@ Route::get('/user/upazila/name/{id}', 'Frontend\CheckoutController@userUpazilaSu
 
 
 
+
+// Search Route Created By Harrison Ended
+
+// Payment Route Created By Harrison
+
+Route::group(['prefix' => 'payment', 'namespace' => 'Frontend'], function () {
+    Route::get('stripe/{payment_secure_id}', 'PaymentController@index')->name('stripe.index');
+    Route::post('stripe/submit/{payment_secure_id}', 'PaymentController@stripeSubmit')->name('payment.stripe.submit');
+    Route::get('stripe/success/payment', 'PaymentController@successStripePaymentView')->name('payment.stripe.success.view');
+    //SSL COMMERCEZ
+
+    Route::post('ssl_commercez/success', 'PaymentController@sslSuccess');
+    Route::post('ssl_commercez/fail', 'PaymentController@sslFail');
+    Route::post('ssl_commercez/cancel', 'PaymentController@sslCancel');
+});
+
+// Payment Route Created By Harrison Ended
+
+
+
 // Payment Route Created By Harrison
 
 Route::group(['prefix' => 'payment', 'namespace' => 'Frontend'], function () {
@@ -429,6 +460,7 @@ Route::group(['prefix' => 'payment', 'namespace' => 'Frontend'], function () {
 // Payment Route Created By Harrison Ended
 
 // order Controller
+
 
 Route::get(md5('admin/product/order'), 'Admin\OrderController@index')->name('admin.productorder');
 Route::get(md5('admin/product/ondelevery'), 'Admin\OrderController@ondelevery')->name('admin.ondevelery');

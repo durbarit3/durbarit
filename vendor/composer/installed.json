@@ -3886,6 +3886,8 @@
         "homepage": "https://github.com/sebastianbergmann/version"
     },
     {
+
+
         "name": "stripe/stripe-php",
         "version": "v7.21.0",
         "version_normalized": "7.21.0.0",
@@ -3918,12 +3920,68 @@
         "extra": {
             "branch-alias": {
                 "dev-master": "2.0-dev"
+
+        "name": "srmklive/paypal",
+        "version": "1.6.11",
+        "version_normalized": "1.6.11.0",
+
+        "name": "stripe/stripe-php",
+        "version": "v7.21.0",
+        "version_normalized": "7.21.0.0",
+
+        "source": {
+            "type": "git",
+            "url": "https://github.com/stripe/stripe-php.git",
+            "reference": "058bfd1fe0cc50054976051ea24969df4da7d66b"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/stripe/stripe-php/zipball/058bfd1fe0cc50054976051ea24969df4da7d66b",
+            "reference": "058bfd1fe0cc50054976051ea24969df4da7d66b",
+            "shasum": ""
+        },
+        "require": {
+            "ext-curl": "*",
+            "ext-json": "*",
+            "ext-mbstring": "*",
+            "php": ">=5.6.0"
+        },
+        "require-dev": {
+            "friendsofphp/php-cs-fixer": "^2.15",
+            "php-coveralls/php-coveralls": "^2.1",
+            "phpunit/phpunit": "^5.7",
+            "squizlabs/php_codesniffer": "^3.3",
+            "symfony/process": "~3.4"
+        },
+        "time": "2020-01-28T19:10:04+00:00",
+        "type": "library",
+        "extra": {
+
+            "laravel": {
+                "providers": [
+                    "Srmklive\\PayPal\\Providers\\PayPalServiceProvider"
+                ],
+                "aliases": {
+                    "PayPal": "Srmklive\\PayPal\\Facades\\PayPal"
+                }
+
+
+            "branch-alias": {
+                "dev-master": "2.0-dev"
+
             }
         },
         "installation-source": "dist",
         "autoload": {
             "psr-4": {
+
+
                 "Stripe\\": "lib/"
+
+                "Srmklive\\PayPal\\": "src/"
+
+
+
             }
         },
         "notification-url": "https://packagist.org/downloads/",
@@ -3932,6 +3990,8 @@
         ],
         "authors": [
             {
+
+
                 "name": "Stripe and contributors",
                 "homepage": "https://github.com/stripe/stripe-php/contributors"
             }
@@ -3942,6 +4002,30 @@
             "api",
             "payment processing",
             "stripe"
+
+                "name": "Raza Mehdi",
+                "email": "srmk@outlook.com"
+
+                "name": "Stripe and contributors",
+                "homepage": "https://github.com/stripe/stripe-php/contributors"
+
+            }
+        ],
+        "description": "Stripe PHP Library",
+        "homepage": "https://stripe.com/",
+        "keywords": [
+
+            "http",
+            "laravel paypal",
+            "paypal",
+            "rest",
+            "web service"
+
+
+            "api",
+            "payment processing",
+            "stripe"
+
         ]
     },
     {
