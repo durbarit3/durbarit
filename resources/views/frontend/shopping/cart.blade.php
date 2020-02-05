@@ -56,11 +56,13 @@
             $.post('{{ route('product.cart.update') }}', { _token: '{{ csrf_token() }}', quantity: el.value, rowid: el.id },
                 function (data) {
 
+
                     $('#cartdata').html(data);
                     if (data) {
                         toastr.success("Product Quantity Changed successfully");
                     }
                 });
+
 
         }, 1000);
     }

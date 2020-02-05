@@ -52,20 +52,20 @@
 
 												<div class="form-group required">
 													<input type="hidden" name="user_id" value="{{Auth::user()->id}}" placeholder="Address 1 *" id="input-payment-address-1" class="form-control">
-													<input type="text" name="user_address" placeholder="Address 1 *" id="input-payment-address-1" class="form-control">
+													<input type="text" name="user_address" value="@if($useraddress->user_address){{$useraddress->user_address}}@endif"  placeholder="Address 1 *" id="input-payment-address-1" class="form-control">
 													@error('user_address')
 														<div class="text-danger alert alert-danger">{{ $message }}</div>
 													@enderror
 												</div>
 
 												<div class="form-group required">
-													<input type="text" name="user_post_office" value="" placeholder="Post office *" id="input-payment-city" class="form-control">
+													<input type="text" name="user_post_office" value="@if($useraddress->user_post_office){{$useraddress->user_post_office}}@endif" placeholder="Post office *" id="input-payment-city" class="form-control">
 													@error('user_post_office')
 														<div class="text-danger alert alert-danger">{{ $message }}</div>
 													@enderror
 												</div>
 												<div class="form-group">
-													<input type="text" name="user_postcode" value="" placeholder="Post Code *" id="input-payment-postcode" class="form-control">
+													<input type="text" name="user_postcode" value="@if($useraddress->user_postcode){{$useraddress->user_postcode}}@endif" placeholder="Post Code *" id="input-payment-postcode" class="form-control">
 													@error('user_postcode')
 														<div class="text-danger alert alert-danger">{{ $message }}</div>
 													@enderror
@@ -74,7 +74,7 @@
 													<select name="user_country_id" id="user_country" class="form-control">
 														<option value="" disabled selected> --- Please Select Your Country --- </option>
 														@foreach(DB::table('countries')->get() as $country)
-														<option value="{{$country->id}}">{{$country->name}}</option>
+														<option value="{{$country->id}}"@if($useraddress->user_country_id  == $country->id) selected @endif>{{$country->name}}</option>
 														@endforeach
 													</select>
 													@error('user_country_id')
@@ -84,6 +84,13 @@
 												<div class="form-group required">
 													<select name="user_division_id" id="user_division" class="form-control">
 														<option disabled selected> --- Please Select Your Division --- </option>
+
+
+
+														@foreach(DB::table('divisions')->get() as $division)
+															<option value="{{$division->id}}" @if($useraddress->user_division_id == $division->id) selected @endif>{{$division->name}} </option>
+														@endforeach
+														
 
 													</select>
 													@error('user_division_id')
@@ -95,6 +102,14 @@
 													<select name="user_district_id" id="user_district" class="form-control">
 														<option disabled selected> --- Please Select Your District --- </option>
 
+														@php
+														$dis=DB::table('districts')->get();
+													
+														@endphp
+														@foreach($dis as $district)
+															<option value="{{$district->id}}" @if($useraddress->user_district_id == $district->id) selected @endif>{{$district->name}} </option>
+														@endforeach
+
 													</select>
 													@error('user_district_id')
 														<div class="text-danger alert alert-danger">{{ $message }}</div>
@@ -102,7 +117,16 @@
 												</div>
 												<div class="form-group required">
 													<select name="user_upazila_id" id="user_upazila" class="form-control">
+
 														<option disabled selected> --- Please Select Your Upazila/Thana --- </option>
+
+											@php
+														$upa=DB::table('upazilas')->get();
+													
+													@endphp
+													@foreach($upa as $upazila)
+														<option value="{{$upazila->id}}" @if($useraddress->user_upazila_id == $upazila->id) selected @endif>{{$upazila->name}} </option>
+													@endforeach
 
 												</div>
 												@error('user_upazila_id')
@@ -230,9 +254,13 @@
 										<div class="radio">
 											<label>
 												<input type="radio" name="payment_method_id" value="1" > Cash On Delivery <br>
+
+
 												<input type="radio" name="payment_method_id" value="2" >Stripe<br>
 												<input type="radio" name="payment_method_id" value="3" > Paypal<br>
 												<input type="radio" name="payment_method_id" value="4" > SSL Commerce
+
+
 												@error('payment_method_id')
 														<div class="text-danger alert alert-danger">{{ $message }}</div>
 												@enderror
@@ -333,6 +361,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script>
     $(document).ready(function() {
+
         $( "#is_shipping" ).click(function() {
             if(this.checked){
                 $('#shipping-address').css('display', 'none');
@@ -341,6 +370,7 @@
                 $('#shipping-address').css('display', 'block');
             }
         });
+
     });
 </script>
 
@@ -450,14 +480,24 @@
             }
         });
 
+
     });
+
 
 </script>
 
 <script>
     var myVar;
     function myUpdateOrder(el) {
+
+
+
+
         myVar = setTimeout(function(){
+
+
+
+
             $.post('{{ route('product.order.update') }}', {_token: '{{ csrf_token() }}',quantity: el.value,rowid:el.id},
             function(data) {
 				$('#orderdata').html(data);
@@ -466,7 +506,7 @@
                     toastr.success("Product Quantity Changed successfully");
                 }
             });
-
+			toastr.success("Product Quantity Changed successfully");
         }, 1000);
 
     }
@@ -522,6 +562,7 @@
                     $.each(data,function(index,divisionobj){
                         $('#user_division').append('<option value="' + divisionobj.id + '">'+divisionobj.name+'</option>');
                     });
+
                 }
 
             }

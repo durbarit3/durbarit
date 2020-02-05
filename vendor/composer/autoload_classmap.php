@@ -67,7 +67,9 @@ return array(
     'App\\Http\\Controllers\\Frontend\\ContractUsController' => $baseDir . '/app/Http/Controllers/Frontend/ContractUsController.php',
     'App\\Http\\Controllers\\Frontend\\CustomerController' => $baseDir . '/app/Http/Controllers/Frontend/CustomerController.php',
     'App\\Http\\Controllers\\Frontend\\FrontendController' => $baseDir . '/app/Http/Controllers/Frontend/FrontendController.php',
+
     'App\\Http\\Controllers\\Frontend\\PaymentController' => $baseDir . '/app/Http/Controllers/Frontend/PaymentController.php',
+
     'App\\Http\\Controllers\\Frontend\\SearchController' => $baseDir . '/app/Http/Controllers/Frontend/SearchController.php',
     'App\\Http\\Controllers\\Frontend\\SubscribeController' => $baseDir . '/app/Http/Controllers/Frontend/SubscribeController.php',
     'App\\Http\\Controllers\\Frontend\\WishlistController' => $baseDir . '/app/Http/Controllers/Frontend/WishlistController.php',
@@ -102,7 +104,6 @@ return array(
     'App\\Providers\\WishListProvider' => $baseDir . '/app/Providers/WishListProvider.php',
     'App\\ReSubCategory' => $baseDir . '/app/ReSubCategory.php',
     'App\\ShippingAddress' => $baseDir . '/app/ShippingAddress.php',
-    'App\\SiteBanner' => $baseDir . '/app/SiteBanner.php',
     'App\\SubCategory' => $baseDir . '/app/SubCategory.php',
     'App\\Subscriber' => $baseDir . '/app/Subscriber.php',
     'App\\TermsAndCondition' => $baseDir . '/app/TermsAndCondition.php',
@@ -3445,6 +3446,7 @@ return array(
     'SebastianBergmann\\Type\\UnknownType' => $vendorDir . '/sebastian/type/src/UnknownType.php',
     'SebastianBergmann\\Type\\VoidType' => $vendorDir . '/sebastian/type/src/VoidType.php',
     'SebastianBergmann\\Version' => $vendorDir . '/sebastian/version/src/Version.php',
+
     'Stripe\\Account' => $vendorDir . '/stripe/stripe-php/lib/Account.php',
     'Stripe\\AccountLink' => $vendorDir . '/stripe/stripe-php/lib/AccountLink.php',
     'Stripe\\AlipayAccount' => $vendorDir . '/stripe/stripe-php/lib/AlipayAccount.php',
@@ -3575,6 +3577,19 @@ return array(
     'Stripe\\Webhook' => $vendorDir . '/stripe/stripe-php/lib/Webhook.php',
     'Stripe\\WebhookEndpoint' => $vendorDir . '/stripe/stripe-php/lib/WebhookEndpoint.php',
     'Stripe\\WebhookSignature' => $vendorDir . '/stripe/stripe-php/lib/WebhookSignature.php',
+
+
+    'Srmklive\\PayPal\\Facades\\PayPal' => $vendorDir . '/srmklive/paypal/src/Facades/PayPal.php',
+    'Srmklive\\PayPal\\PayPalFacadeAccessor' => $vendorDir . '/srmklive/paypal/src/PayPalFacadeAccessor.php',
+    'Srmklive\\PayPal\\Providers\\PayPalServiceProvider' => $vendorDir . '/srmklive/paypal/src/Providers/PayPalServiceProvider.php',
+    'Srmklive\\PayPal\\Services\\AdaptivePayments' => $vendorDir . '/srmklive/paypal/src/Services/AdaptivePayments.php',
+    'Srmklive\\PayPal\\Services\\ExpressCheckout' => $vendorDir . '/srmklive/paypal/src/Services/ExpressCheckout.php',
+    'Srmklive\\PayPal\\Traits\\PayPalHttpClient' => $vendorDir . '/srmklive/paypal/src/Traits/PayPalHttpClient.php',
+    'Srmklive\\PayPal\\Traits\\PayPalRequest' => $vendorDir . '/srmklive/paypal/src/Traits/PayPalRequest.php',
+    'Srmklive\\PayPal\\Traits\\PayPalTransactions' => $vendorDir . '/srmklive/paypal/src/Traits/PayPalTransactions.php',
+    'Srmklive\\PayPal\\Traits\\RecurringProfiles' => $vendorDir . '/srmklive/paypal/src/Traits/RecurringProfiles.php',
+
+
     'Symfony\\Component\\Console\\Application' => $vendorDir . '/symfony/console/Application.php',
     'Symfony\\Component\\Console\\CommandLoader\\CommandLoaderInterface' => $vendorDir . '/symfony/console/CommandLoader/CommandLoaderInterface.php',
     'Symfony\\Component\\Console\\CommandLoader\\ContainerCommandLoader' => $vendorDir . '/symfony/console/CommandLoader/ContainerCommandLoader.php',

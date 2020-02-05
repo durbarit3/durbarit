@@ -86,8 +86,12 @@ class PaymentController extends Controller
 
             session()->flash('success', 'Thank you, Successfully payment accepted');
             return redirect()->route('payment.stripe.success.view');
+
+
         } catch (CardException $e) {
-            return Redirect::refresh()->withErrors(['error', $e->getMessages]);
+            return Redirect::refresh()->withErrors(['error', $e->messages]);
+
+    
         }
 
         // Stripe::setApiKey(env('STRIPE_SECRET'));
@@ -152,6 +156,7 @@ class PaymentController extends Controller
         if ($request->status === "FAILED") {
             return view('frontend.payment.ssl_commerce.failed');
         }
+
     }
     public function sslCancel()
     {
